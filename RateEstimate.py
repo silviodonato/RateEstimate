@@ -42,6 +42,8 @@ evalHLTgroups = True       # evaluate HLT triggers groups rates and global HLT a
 #evalHLTtwopaths = True    # evaluate the correlation among the HLT trigger paths rates?
 evalHLTtwogroups = False   # evaluate the correlation among the HLT trigger groups rates?
 label = "rates_MC_v4p4_V1"         # name of the output files
+runNo = "260627"           #if runNo='0', means code will run for all Run.
+
 
 isData = False
 ## L1Rate studies as a function of PU and number of bunches:
@@ -507,6 +509,9 @@ def getEvents(input_):
          
             # Looping over the events to compute the global rate
             for event in tree:
+                HLTrun = getattr(event,"Run")
+                if(HLTrun!=int(runNo)):
+                    continue
                 HLTCount = 0
                 L1Count = 0
                 L1Presc = 0
@@ -603,7 +608,9 @@ def fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,rateTriggerD
     if dataset in datasetNegWeightList:         withNegativeWeights = True
     
     filterString = '1'
-    
+    if isData and runNo!='0':
+        filterString+="&&(Run=="+runNo+")"   
+ 
     ## skip file if you have to
     if (not useMuEnriched) and isMuEnriched: skip = True
     if (not useEMEnriched) and isEMEnriched: skip = True
@@ -620,6 +627,8 @@ def fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,rateTriggerD
     if useMuEnriched and isAntiMu: filterString += '&& !'+Mu_cut
     
     denominatorString = '1'
+    if isData and runNo!='0':
+        filterString+="&&(Run=="+runNo+")"   
     ## if useEMEnriched and is EMEnriched, apply EM cut 
     if useEMEnriched and isEMEnriched:
         filterString += '&& '+EM_cut
