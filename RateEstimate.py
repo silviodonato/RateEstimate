@@ -4,17 +4,17 @@
 ########## Configuration #####################################################################
 #from triggersGroupMap.triggersGroupMap__frozen_2015_25ns14e33_v4p4_HLT_V1 import *
 #from triggersGroupMap.triggersMap_GRun_V72 import *
-from triggersGroupMap.Fill_5105_Menu import *
+from triggersGroupMap.Menu_online_v3p1_V2 import *
 #from triggersGroupMap.prescaleMap_GRun_V72 import *
 #from triggersGroupMap.triggersMap_L1HandMade import *
 #from datasetCrossSections.datasetCrossSectionsPhys14 import *
 from datasetCrossSections.datasetCrossSectionsHLTPhysics import *
 #from datasetCrossSections.datasetLumiSectionsData import *
 
-batchSplit = True
 batchSplit = False
-looping = True
+batchSplit = True
 looping = False
+looping = True
 
 ##### Adding an option to the code #####
 
@@ -29,7 +29,7 @@ if batchSplit:
 
 ##### Other configurations #####
 
-folder = '/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/STEAM/Run2016D/STEAM_ND_HLTPhysics2016D_hlt3p0_1e34_V1/HLTPhysics'
+folder = '/store/group/dpg_trigger/comm_trigger/TriggerStudiesGroup/STEAM/Run2016G/HLTPhysics_2016G_menu3p1p6_279694/HLTPhysics_ntuples'
 localdir = '/afs/cern.ch/user/x/xgao/eos/cms'
 lumi = 1              # luminosity [s-1cm-2]
 if (batchSplit): multiprocess = 1           # number of processes
@@ -43,11 +43,13 @@ useMuEnriched = False       # use plain QCD EM-enriched samples (Pt30to170)?
 evalL1 = False              # evaluate L1 triggers rates?
 evalHLTpaths = True        # evaluate HLT triggers rates?
 evalHLTgroups = True       # evaluate HLT triggers groups rates and global HLT and L1 rates
-evalHLTprimaryDatasets = True # evaluate HLT triggers primary datasets rates and global HLT and L1 rates
+evalHLTprimaryDatasets = False # evaluate HLT triggers primary datasets rates and global HLT and L1 rates
 #evalHLTtwopaths = True    # evaluate the correlation among the HLT trigger paths rates?
 evalHLTtwogroups = False   # evaluate the correlation among the HLT trigger groups rates?
 label = "test"         # name of the output files
-runNo = "0"           #if runNo='0', means code will run for all Run.
+runNo = "279654"           #if runNo='0', means code will run for all Run.
+LS_min = '43'
+LS_max = '246'            #default is 9999
 
 isData = True
 ## L1Rate studies as a function of PU and number of bunches:
@@ -245,11 +247,12 @@ def getPrescaleListInNtuples():
     return prescales       
 
 ## set and fill totalEventsMatrix, passedEventsMatrix, rateTriggerTotal, squaredErrorRateTriggerTotal with zero
-def setToZero(totalEventsMatrix,passedEventsMatrix,triggerAndGroupList,rateTriggerTotal,squaredErrorRateTriggerTotal) :
+def setToZero(totalEventsMatrix,passedEventsMatrix,WeightedErrorMatrix,triggerAndGroupList,rateTriggerTotal,squaredErrorRateTriggerTotal) :
     for dataset in xsectionDatasets:
         totalEventsMatrix[dataset]=0
         for trigger in triggerAndGroupList:
             passedEventsMatrix[(dataset,trigger)]=0
+            WeightedErrorMatrix[(dataset,trigger)]=0
     
     for trigger in triggerAndGroupList:
         rateTriggerTotal[trigger]=0
@@ -547,6 +550,7 @@ def getEvents(input_):
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             for event in tree:
                 if (int(runNo) != 0 and int(getattr(event,'Run')) != int(runNo)):continue
+                if int(getattr(event,'LumiBlock')) < int(LS_min) or int(getattr(event,'LumiBlock')) > int(LS_max):continue
                 #if u==N: break
                 if u%(N/50)==0: print "\r{0:.1f} %".format(100*float(u)/float(N))
                 u += 1 
@@ -601,7 +605,7 @@ def getEvents(input_):
             for trigger in triggerAndGroupList:
                 passedEventsMatrix_[trigger] = 0
 
-    return passedEventsMatrix_,totalEventsMatrix_
+    return passedEventsMatrix_,totalEventsMatrix_,WeightedErrorMatrix_
 
 ## fill the matrixes of the number of events and the rates for each dataset and trigger
 Total_count = 0
@@ -668,6 +672,8 @@ def fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,WeightedErro
     filterString = '1'
     if isData and runNo!='0':
         filterString+="&&(Run=="+runNo+")"   
+        if LS_min !='0':
+            filterString+="&&(LumiBlock>="+LS_min+")&&(LumiBlock<="+LS_max+")"
  
     ## skip file if you have to
     if (not useMuEnriched) and isMuEnriched: skip = True
@@ -687,6 +693,8 @@ def fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,WeightedErro
     denominatorString = '1'
     if isData and runNo!='0':
         denominatorString+="&&(Run=="+runNo+")"   
+        if LS_min !='0':
+            denominatorString+="&&(LumiBlock>="+LS_min+")&&(LumiBlock<="+LS_max+")"
     ## if useEMEnriched and is EMEnriched, apply EM cut 
     if useEMEnriched and isEMEnriched:
         filterString += '&& '+EM_cut
@@ -739,8 +747,8 @@ def fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,WeightedErro
     
         ## get the output
         for input_ in inputs:
-            if multiprocess>1: (passedEventsMatrix_,totalEventsMatrix_) = output[inputs.index(input_)]
-            else: (passedEventsMatrix_,WeightedErrorMatrix_,totalEventsMatrix_) = getEvents(input_)
+            if multiprocess>1: (passedEventsMatrix_,totalEventsMatrix_,WeightedErrorMatrix_) = output[inputs.index(input_)]
+            else: (passedEventsMatrix_,totalEventsMatrix_,WeightedErrorMatrix_) = getEvents(input_)
         
             ##fill passedEventsMatrix[] and totalEventsMatrix[]
             totalEventsMatrix[dataset] += totalEventsMatrix_
@@ -879,11 +887,11 @@ prescaleList = getPrescaleListInNtuples()
 ## loop on dataset and fill matrix with event counts, rates, and squared errors
 for dataset in datasetList:
     if batchSplit:
-        if options.datasetName=="all": fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,rateTriggerDataset,squaredErrorRateTriggerDataset)
+        if options.datasetName=="all": fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,WeightedErrorMatrix,rateTriggerDataset,squaredErrorRateTriggerDataset)
         elif dataset==options.datasetName:
             fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,WeightedErrorMatrix,rateTriggerDataset,squaredErrorRateTriggerDataset)
             break
-    else: fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,rateTriggerDataset,squaredErrorRateTriggerDataset)
+    else: fillMatrixAndRates(dataset,totalEventsMatrix,passedEventsMatrix,WeightedErrorMatrix,rateTriggerDataset,squaredErrorRateTriggerDataset)
 
 ## evaluate the total rate with uncertainty for triggers and groups
 for dataset in datasetList:
@@ -936,9 +944,9 @@ if batchSplit:
 
     ### write files with  trigger rates
     if evalL1:writeMatrixRates(filename+'_L1_matrixRates_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,L1List,True,False)
-    if evalHLTpaths: writeMatrixRates(filename+'_matrixRates_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,HLTList,True,True)
-    if evalHLTprimaryDatasets: writeMatrixRates(filename+'_matrixRates.primaryDataset_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,primaryDatasetList)
-    if evalHLTgroups: writeMatrixRates(filename+'_matrixRates.groups_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,groupList)
+    if evalHLTpaths: writeMatrixRates(directoryname+filename+'_matrixRates_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,HLTList,True,True)
+    if evalHLTprimaryDatasets: writeMatrixRates(directoryname+filename+'_matrixRates.primaryDataset_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,primaryDatasetList)
+    if evalHLTgroups: writeMatrixRates(directoryname+filename+'_matrixRates.groups_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,groupList)
     if evalHLTtwogroups: writeMatrixRates(filename+'_matrixRates.twogroups_'+str(options.datasetName)+'_'+str(options.fileNumber)+'.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,twoGroupsList)
 
 else:
@@ -949,17 +957,17 @@ else:
 
     ## write files with events count
     if evalL1: writeMatrixEvents(filename+'_L1_matrixEvents.tsv',datasetList,L1List,totalEventsMatrix,passedEventsMatrix,True,False)
-    if evalHLTpaths: writeMatrixEvents(filename+'_matrixEvents.tsv',datasetList,HLTList,totalEventsMatrix,passedEventsMatrix,True,True)
-    if evalHLTprimaryDatasets: writeMatrixEvents(filename+'_matrixEvents.primaryDataset.tsv',datasetList,primaryDatasetList,totalEventsMatrix,passedEventsMatrix)
-    if evalHLTgroups: writeMatrixEvents(filename+'_matrixEvents.groups.tsv',datasetList,groupList,totalEventsMatrix,passedEventsMatrix)
+    if evalHLTpaths: writeMatrixEvents(directoryname+filename+'_matrixEvents.tsv',datasetList,HLTList,totalEventsMatrix,passedEventsMatrix,True,True)
+    if evalHLTprimaryDatasets: writeMatrixEvents(directoryname+filename+'_matrixEvents.primaryDataset.tsv',datasetList,primaryDatasetList,totalEventsMatrix,passedEventsMatrix)
+    if evalHLTgroups: writeMatrixEvents(directoryname+filename+'_matrixEvents.groups.tsv',datasetList,groupList,totalEventsMatrix,passedEventsMatrix)
     if evalHLTtwogroups: writeMatrixEvents(filename+'_matrixEvents.twogroups.tsv',datasetList,twoGroupsList,totalEventsMatrix,passedEventsMatrix)
 
     ## write files with  trigger rates
     if evalL1: writeMatrixRates(filename+'_L1_matrixRates.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,L1List,True,False)
     ##if evalL1scaling: writeL1RateStudies(filename+'_L1RateStudies_matrixRates.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,L1List,True)
-    if evalHLTpaths: writeMatrixRates(filename+'_matrixRates.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,HLTList,True,True)
-    if evalHLTprimaryDatasets: writeMatrixRates(filename+'_matrixRates.primaryDataset.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,primaryDatasetList)
-    if evalHLTgroups: writeMatrixRates(filename+'_matrixRates.groups.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,groupList)
+    if evalHLTpaths: writeMatrixRates(directoryname+filename+'_matrixRates.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,HLTList,True,True)
+    if evalHLTprimaryDatasets: writeMatrixRates(directoryname+filename+'_matrixRates.primaryDataset.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,primaryDatasetList)
+    if evalHLTgroups: writeMatrixRates(directoryname+filename+'_matrixRates.groups.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,groupList)
     if evalHLTtwogroups: writeMatrixRates(filename+'_matrixRates.twogroups.tsv',prescaleList,datasetList,rateTriggerDataset,rateTriggerTotal,twoGroupsList)
 
 

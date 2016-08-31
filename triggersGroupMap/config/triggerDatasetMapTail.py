@@ -11,15 +11,52 @@ triggersToRemove = [
     'HLT_HT500to550_v',
     'HLT_HT550to650_v',
     'HLT_HT650_v',
+    'HLT_Physics_v',
     'HLT_L1FatEvents_part0_v',
     'HLT_L1FatEvents_part1_v',
     'HLT_L1FatEvents_part2_v',
     'HLT_L1FatEvents_part3_v',
     'HLT_L1FatEvents_v',
-    'HLT_Physics_v',
-    'HLT_Random_v'
+    'HLT_ZeroBias_part0_v',
+    'HLT_ZeroBias_part1_v',
+    'HLT_ZeroBias_part2_v',
+    'HLT_ZeroBias_part3_v',
+    'HLT_ZeroBias_part4_v',
+    'HLT_Physics_part0_v',
+    'HLT_Physics_part1_v',
+    'HLT_Physics_part2_v',
+    'HLT_Physics_part3_v',
+    'HLT_ZeroBias_v',
+    'HLT_Random_v',
+    'HLT_RsqMR240_Rsq0p09_MR200_4jet_v',
+    'HLT_PFHT250_DiPFJetAve90_PFAlphaT0p55_v',
+    'HLT_PFHT300_DiPFJetAve90_PFAlphaT0p53_v',
+    'HLT_PFHT350_DiPFJetAve90_PFAlphaT0p52_v',
+    'HLT_PFHT400_DiPFJetAve90_PFAlphaT0p51_v',
+    'HLT_Photon90_CaloIdL_PFHT500_v',
+    'HLT_Mu3er_PFHT140_PFMET125_v',
+    'HLT_Mu6_PFHT200_PFMET80_BTagCSV_p067_v',
+    'HLT_PFMET120_BTagCSV_p067_v',
     
 ]
+
+def check_trigger(trigger_in):
+    if trigger_in in triggersToRemove:
+        return True
+
+    for trigger in triggersToRemove:
+        if '*' in trigger:
+            if trigger[:-1] in trigger_in:
+                return True
+
+        elif '_v' in trigger:
+            if trigger.split('_v')[0] == trigger_in.split('_v')[0]:
+                return True
+
+        else:
+            if trigger == trigger_in.split('_v')[0]:
+                return True
+    return False
 
 
 #triggersGroupMap = dict(triggersGroupMap.items())
@@ -39,7 +76,7 @@ for trigger in triggersDatasetMap.keys():
     if not (trigger in triggerList) : triggerList.append(trigger)
     for dataset in triggersDatasetMap[trigger]:
         if not dataset in primaryDatasetList: primaryDatasetList.append(dataset)
-    if (trigger in triggersToRemove) or (trigger[:-1] in triggersToRemove) or (trigger.split('_')[0]+'_*' in triggersToRemove): continue
+    if check_trigger(trigger):continue
     for group in triggersGroupMap[trigger]:
         if not group in groupList: groupList.append(group)
 
@@ -54,7 +91,7 @@ for trigger in triggerList:
     for dataset in triggersDatasetMap[trigger]:
         if dataset in getTriggerString.keys(): getTriggerString[dataset]+='||'+trigger
         else: getTriggerString[dataset]=trigger
-    if (trigger in triggersToRemove) or (trigger[:-1] in triggersToRemove) or (trigger.split('_')[0]+'_*' in triggersToRemove):
+    if check_trigger(trigger):
         print trigger
         continue
     for group in triggersGroupMap[trigger]:
@@ -64,32 +101,33 @@ for trigger in triggerList:
 ## Fill string for All group
 groupList.append('All_HLT')
 for trigger in HLTList:
-    if (trigger in triggersToRemove) or (trigger[:-1] in triggersToRemove) or (trigger.split('_')[0]+'_*' in triggersToRemove): continue
+    if check_trigger(trigger):continue
     if 'All_HLT' in getTriggerString.keys(): getTriggerString['All_HLT']+='||'+trigger
     else: getTriggerString['All_HLT']=trigger
 
 ## Fill string for prescaled paths
 groupList.append('All_PSed')
 for trigger in HLTList:
-    if (trigger in triggersToRemove) or (trigger[:-1] in triggersToRemove) or (trigger.split('_')[0]+'_*' in triggersToRemove): continue
+    if check_trigger(trigger):continue
     if int(prescaleMap[trigger][0]) <=1 : continue
     if 'All_PSed' in getTriggerString.keys(): getTriggerString['All_PSed']+='||'+trigger
     else: getTriggerString['All_PSed']=trigger
 
 ## Fill string for type
-groupList.append('type_signal')
-for trigger in triggersTypeMap:
-    if (trigger in triggersToRemove) or (trigger[:-1] in triggersToRemove) or (trigger.split('_')[0]+'_*' in triggersToRemove): continue
-    if (not ('signal' in triggersTypeMap[trigger])) and (not ('backup' in triggersTypeMap[trigger])):continue
-    if 'type_signal' in getTriggerString.keys(): getTriggerString['type_signal']+='||'+trigger
-    else: getTriggerString['type_signal']=trigger
-
-groupList.append('type_control')
-for trigger in triggersTypeMap:
-    if (trigger in triggersToRemove) or (trigger[:-1] in triggersToRemove) or (trigger.split('_')[0]+'_*' in triggersToRemove): continue
-    if not ('control' in triggersTypeMap[trigger]):continue
-    if 'type_control' in getTriggerString.keys(): getTriggerString['type_control']+='||'+trigger
-    else: getTriggerString['type_control']=trigger
+if triggersTypeMap:
+    groupList.append('type_signal')
+    for trigger in triggersTypeMap:
+        if check_trigger(trigger):continue
+        if (not ('signal' in triggersTypeMap[trigger])) and (not ('backup' in triggersTypeMap[trigger])):continue
+        if 'type_signal' in getTriggerString.keys(): getTriggerString['type_signal']+='||'+trigger
+        else: getTriggerString['type_signal']=trigger
+    
+    groupList.append('type_control')
+    for trigger in triggersTypeMap:
+        if check_trigger(trigger):continue
+        if not ('control' in triggersTypeMap[trigger]):continue
+        if 'type_control' in getTriggerString.keys(): getTriggerString['type_control']+='||'+trigger
+        else: getTriggerString['type_control']=trigger
 
 #groupList.append('type_backup')
 #for trigger in triggersTypeMap:
@@ -98,3 +136,4 @@ for trigger in triggersTypeMap:
 #    else: getTriggerString['type_backup']=trigger
 
                                            
+print groupList

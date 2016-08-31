@@ -1,0 +1,200 @@
+DESCRIPTION=L1Menu_Collisions2015_25nsStage1_v5																				
+LUMINOSITY_NOMINAL_HZ_CM2=1e+34																				
+																				
+**		Emergency	1e34	7e33	5e33	3.5e33	2e33	1e33	7e32	5e32	3.5e32	2e32	1e32	Circulating		mask		comments		
+PRESCALE_INDEX		0	1	2	3	4	5	6	7	8	9	10	11	12						
+TARGET_LUMI_LEVEL		160	140	70	50	35	20	10	7	5	4	2	1	1						
+																				
+a0	L1_ZeroBias	29989	20000	15000	10000	7500	5000	2500	1500	1000	750	500	250	250		0		should give at least 1 kHz at peak luminosity, and 3 kHz when possible	Consider machine full withe all bunches	
+a1	L1_AlwaysTrue	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT		
+a2	L1_SingleEG2_BptxAND	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a3	L1_SingleMu7	262139	250	125	125	75	50	25	12	9	6	3	1	262139		0				
+a4	L1_SingleEG15	24000	24000	12000	12000	7	4	2	1	1	1	1	1	262139		0		increase rate by 1k		
+a5	L1_ETT15_BptxAND	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139		0		End Of Fill seeds		
+a6	L1_ETT40	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139		0		End Of Fill seeds		
+a7	L1_ETT60	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139		0		End Of Fill seeds		
+a8	L1_HTT75	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a9	L1_Mu12_EG10	262139	262139	1	1	1	1	1	1	1	1	1	1	262139		0		assume prescale = 262139 at 14e33		
+a10	L1_Mu5_EG15	262139	262139	1	1	1	1	1	1	1	1	1	1	262139		0		assume prescale = 262139 at 14e33		
+a11	L1_DoubleTauJet40er	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT, masked		
+a12	L1_IsoEG20er_TauJet20er_NotWdEta0	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a13	L1_Mu16er_TauJet20er	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a14	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a15	L1_HTT100	262139	262139	1	1	1	1	1	1	1	1	1	1	262139		0				
+a16	L1_SingleIsoEG20	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a17	L1_SingleJet52	3000	10000	6000	4000	3000	1500	800	500	400	300	150	100	262139		0		CMSHLT-512	CMSHLT-536	
+a18	L1_SingleJet68	  1 500	  1 500	  1 000	   750	   500	   300	   150	   100	   75	   50	   30	   15	262139		0		Staying in synch with Jet52	CMSHLT-536	
+a19	L1_SingleJet92	3000	3000	2000	2000	1500	800	400	300	200	150	80	40	262139		0		CMSHLT-512	CMSHLT-536	
+a20	L1_SingleJet128	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a21	L1_SingleJet176	300	300	1	1	1	1	1	1	1	1	1	1	262139		0				
+a22	L1_SingleJet200	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a23	L1_SingleJet36	262139	262139	262139	7000	5000	3000	1500	1000	700	500	300	   150	262139		0		CMSHLT-512	CMSHLT-536	
+a24	L1_DoubleIsoTau32er	262139	262139	100	1	1	1	1	1	1	1	1	1	262139		0				
+a25	L1_Mu16er_IsoTau32er	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a26	L1_DoubleMu0	300	300	150	150	105	60	30	21	5	2	2	1	262139		0		CMSHLT-364	CMSHLT-478	Accomodate Jira ticket
+a27	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a28	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT		
+a29	L1_Mu3_JetC16_WdEtaPhi2	400	400	200	150	100	50	25	20	15	10	5	1	262139		0		CMSHLT-363		
+a30	L1_Mu3_JetC52_WdEtaPhi2	15	15	10	7	5	3	1	1	1	1	1	1	262139		0		CMSHLT-363		
+a31	L1_EG25er_HTT100	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		assume prescale = 1 at 14e33, from HLT google doc		
+a32	L1_DoubleMuOpen	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a33	L1_SingleIsoEG25er	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a34	L1_SingleIsoEG25	2000	2000	1000	1000	700	400	200	150	100	70	40	20	262139		0		not used at HLT	Same prescale than EG15 so no rate addition	Increase rate by 150
+a35	L1_SingleIsoEG28er	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a36	L1_SingleIsoEG30er	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a37	L1_SingleEG10	20000	15000	10000	10000	5000	3000	1500	100	75	50	30	15	262139		0			Increase Rate by factor 10	
+a38	L1_SingleIsoEG22er	2000	2000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a39	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a40	L1_DoubleJetC52	10000	10000	5000	5000	3500	2000	1000	750	500	350	200	100	262139		0				
+a41	L1_DoubleJetC84	700	700	1	1	1	1	1	1	1	1	1	1	262139		0				
+a42	L1_SingleMu14er	1000	1000	200	200	100	75	50	20	15	10	7	1	262139		0				
+a43	L1_DoubleJetC112	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a44	L1_DoubleMu_10_Open	2000	2000	500	500	250	150	100	50	30	25	15	10	262139		0		not used at HLT	Should we prescale to maximum?	
+a45	L1_DoubleMu_10_3p5	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a46	L1_QuadJetC40	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a47	L1_SingleEG5	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139		0		Can it be reduced at low lumi for AlCa paths?		
+a48	L1_SingleEG25	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a49	L1_SingleEG40	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a50	L1_SingleIsoEG18er	3000	3000	2000	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Same prescale than EG15 so no rate addition	
+a51	L1_SingleIsoEG20er	2000	2000	1000	10	7	4	2	1	1	1	1	1	262139		0			Same prescale than EG15 so no rate addition	
+a52	L1_SingleEG20	4000	4000	2000	10	1	1	1	1	1	1	1	1	262139		0		CMSHLT-512	Multiply rate by 1000 at 3.5e33	Same prescale than EG15 so no rate addition
+a53	L1_SingleEG30	800	800	1	1	1	1	1	1	1	1	1	1	262139		0				
+a54	L1_SingleEG35	500	500	1	1	1	1	1	1	1	1	1	1	262139		0				
+a55	L1_SingleMuOpen	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	1500	750	262139		0				
+a56	L1_SingleMu16	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a57	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT, assume unprescaled	Lower paths exist without prescale	
+a58	L1_SingleMu5	262139	262139	262139	262139	75	40	20	10	5	3	2	1	262139		0		CMSHLT-364	CMSHLT-467	
+a59	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT, assume unprescaled	Lower paths exist without prescale	
+a60	L1_SingleMu20er	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a61	L1_SingleMu12	3000	3000	70	70	18	10	5	4	3	2	1	1	262139		0		CMSHLT-467	CMSHLT-520	Multiply rate by factor 3
+a62	L1_SingleMu20	700	700	1	1	1	1	1	1	1	1	1	1	262139		0				
+a63	L1_Mu8_HTT50	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a64	L1_SingleMu25	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a65	L1_SingleMu30	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a66	L1_ETM30	40000	40000	20000	2000	1500	800	400	300	200	150	100	50	262139		0		not used at HLT		
+a67	L1_ETM50	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a68	L1_ETM70	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a69	L1_ETM100	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a70	L1_HTT125	300	300	1	1	1	1	1	1	1	1	1	1	262139		0		CMSHLT-393		
+a71	L1_HTT150	800	800	1	1	1	1	1	1	1	1	1	1	262139		0				
+a72	L1_HTT175	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a73	L1_HTT200	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a74	L1_Mu20_EG10	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a75	L1_Mu5_EG20	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a76	L1_Mu5_IsoEG18	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a77	L1_Mu6_DoubleEG10	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a78	L1_SingleJetC32_NotBptxOR	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a79	L1_ETM40	10000	10000	7000	5000	3500	2000	1000	700	500	350	200	100	262139		0				
+a80	L1_HTT250	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a81	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a82	L1_Mu10er_ETM30	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a83	L1_Mu10er_ETM50	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a84	L1_Mu14er_ETM30	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a85	L1_DoubleMu7_EG7	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a86	L1_SingleMu16er	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a87	L1_Mu6_HTT100	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a88	L1_Mu4_EG18	10000	10000	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a89	L1_SingleMuOpen_NotBptxOR	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a90	L1_DoubleMu6_EG6	10000	10000	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a91	L1_Mu5_DoubleEG5	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139	262139		0		not used at HLT		
+a92	L1_DoubleEG6_HTT150	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a93	L1_QuadJetC36_TauJet52	20	20	10	7	5	3	2	1	1	1	1	1	262139		0				
+a94	L1_Mu0er_ETM40	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a95	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a96	L1_Mu16er_IsoTau28er	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		assume prescale = 1, from HLT google doc		
+a97	L1_TripleMu0	100	100	1	1	1	1	1	1	1	1	1	1	262139		0				
+a98	L1_TripleMu_5_5_3	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a99	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a100	L1_TripleEG_14_10_8	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a101	L1_DoubleEG_15_10	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a102	L1_DoubleEG_22_10	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a103	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a104	L1_Mu0er_ETM55	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		unmasked - used by one path		
+a105	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a106	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a107	L1_Jet32_DoubleMu_Open_10_MuMuNotWdPhi23_JetMuWdPhi1	10	10	5	3	2	1	1	1	1	1	1	1	262139		0				
+a108	L1_Jet32_MuOpen_EG10_MuEGNotWdPhi3_JetMuWdPhi1	150	150	80	60	40	20	10	8	6	4	2	1	262139		0				
+a109	L1_ETM60	900	900	1	1	1	1	1	1	1	1	1	1	262139		0				
+a110	L1_DoubleJetC100	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a111	L1_QuadJetC60	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a112	L1_SingleJetC20_NotBptxOR	10	10	10	10	10	10	10	10	10	10	10	10	262139		0		actual prescale to be defined		
+a113	L1_DoubleJetC56_ETM60	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a114	L1_DoubleMu0_Eta1p6_WdEta18	2000	2000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a115	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a116	L1_DoubleIsoTau28er	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		not used at HLT	Lower paths exist without prescale	
+a117	L1_DoubleIsoTau36er	1000	1000	1	1	1	1	1	1	1	1	1	1	262139		0				
+a118	L1_DoubleIsoTau40er	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		assume prescale = 1 at 14e33, from HLT google doc		
+a119	L1_TripleJet_92_76_64_VBF	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a120	L1_TripleJet_84_68_48_VBF	1	1	1	1	1	1	1	1	1	1	1	1	262139		0		assume prescale = 1 at 14e33, from HLT google doc		
+a121	L1_QuadMu0	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a122	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT	Lower paths exist without prescale	
+a123	L1_DoubleMu0_Eta1p6_WdEta18_OS	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a124	L1_DoubleMu_12_5	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a125	-	1	1	1	1	1	1	1	1	1	1	1	1	262139		255				
+a126	L1_DoubleMu_10_0_WdEta18	1	1	1	1	1	1	1	1	1	1	1	1	262139		0				
+a127	L1_SingleMuBeamHalo	1	1	1	1	1	1	1	1	1	1	1	1	262139		255		not used at HLT		
+																				
+t0	L1Tech_BPTX_plus_AND_minus.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t1	L1Tech_BPTX_plus.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t2	L1Tech_BPTX_minus.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t3	L1Tech_BPTX_plus_OR_minus.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t4	L1Tech_BPTX_plus_AND_minus_instance1.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t5	L1Tech_BPTX_plus_AND_NOT_minus.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t6	L1Tech_BPTX_minus_AND_not_plus.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t7	L1Tech_BPTX_quiet.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t8	L1Tech_HCAL_HF_single_channel.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t9	L1Tech_HCAL_HF_coincidence_PM.v2	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t10	L1Tech_HCAL_HF_MMP_or_MPP.v1	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t11	L1Tech_HCAL_HO_totalOR.v0	277	277	277	277	277	277	277	277	277	277	277	277	65535		0				
+t12	L1Tech_HCAL_HBHE_totalOR.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		0				
+t13	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t14	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t15	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t16	L1Tech_BPTX_PreBPTX.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t17	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t18	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t19	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t20	L1Tech_DT_GlobalOR.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t21	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t22	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t23	-	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t24	L1Tech_RPC_TTU_barrel_Cosmics.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t25	L1Tech_RPC_TTU_pointing_Cosmics.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t26	L1Tech_RPC_TTU_RBplus2_Cosmics.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t27	L1Tech_RPC_TTU_RBplus1_Cosmics.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t28	L1Tech_RPC_TTU_RB0_Cosmics.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t29		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t30		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t31		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t32		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t33		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t34		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t35		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t36		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t37		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t38		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t39		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t40		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t41		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t42		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t43		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t44		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t45		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t46		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t47		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t48		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t49		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t50		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t51		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t52	L1Tech_TOTEM_0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t53	L1Tech_TOTEM_1	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t54	L1Tech_TOTEM_2	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t55	L1Tech_TOTEM_3	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t56	L1Tech_CASTOR_Gap.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t57	L1Tech_CASTOR_HighJet.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t58	L1Tech_CASTOR_MediumJet.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t59	L1Tech_CASTOR_HaloMuon.v0	1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t60		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t61		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t62		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
+t63		1	1	1	1	1	1	1	1	1	1	1	1	65535		255				
