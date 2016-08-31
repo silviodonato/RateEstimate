@@ -1,13 +1,13 @@
-file_menu = 'Fill_5105_Menu.tsv'
+file_menu = 'outputTSV.tsv'
 file_sample = 'config/triggerDatasetMapTail.py'
-file_output = 'Fill_5105_Menu.py'
+file_output = 'Menu_online_v3p1_V2.py'
 triggerName = 'tttt'
 column_stream = 0
 column_dataset = 1
 column_trigger = 2
+column_type = -1
 column_group = 3
-column_type = 4
-column_ps = 77
+column_ps = 5
 
 triggerDataset = {}
 triggerStream = {}
@@ -18,20 +18,43 @@ prescaleMap = {}
 current_stream = ''
 current_dataset = ''
 
+def check_group(group):
+    group_list =['EXO', 'JME', 'SUS', 'BPH', 'SMP', 'BTV', 'TAU', 'HIG', 'EGM', 'B2G', 'MUO', 'PPD', 'AlCa', 'TOP', 'HIN', 'TRK', 'FSQ', 'ECAL', 'HCAL', 'null', 'All_HLT', 'All_PSed', 'type_signal', 'type_control','Higgs','Analysis','tau-pog','Egamma','ttH']
+    if group in group_list:
+        return True
+    isGroup = True
+    if (len(group)<3 or len(group)>10)and isGroup:
+        isGroup = False
+    if isGroup:
+        if not group[0].isupper():
+            isGroup = False
+#        if not group[1].isupper():
+#            isGroup = False
+    return isGroup
+
 
 for Line in open(file_menu,'r'):
     line = Line.split('\t')
-    if 'stream' in line[column_stream]:
-        current_stream = line[column_stream].replace('stream','')
-        current_stream = current_stream.replace(' ','')
-        continue
-    if 'dataset' in line[column_dataset]:
-        current_dataset = line[column_dataset].replace('dataset','')
-        current_dataset = current_dataset.replace(' ','')
-        continue
-    if '_v' in line[column_trigger]:
-        trigger = line[column_trigger]
+    trigger = ''
+    if column_stream >=0:
+        if 'stream' in line[column_stream]:
+            current_stream = line[column_stream].replace('stream','')
+            current_stream = current_stream.replace('\n','')
+            current_stream = current_stream.replace(' ','')
+            continue
+    if column_dataset >=0:
+        if 'dataset' in line[column_dataset]:
+            current_dataset = line[column_dataset].replace('dataset','')
+            current_dataset = current_dataset.replace('\n','')
+            current_dataset = current_dataset.replace(' ','')
+            continue
+    if column_trigger >=0:
+        if '_v' in line[column_trigger]:
+            trigger = line[column_trigger]
+            print trigger
+        else:continue
 # make stream map
+    if column_stream >=0:
         if not (trigger in triggerStream):
             tmp_list = []
             tmp_list.append(current_stream)
@@ -41,6 +64,7 @@ for Line in open(file_menu,'r'):
                 triggerStream[trigger].append(current_stream)
 
 # make dataset map
+    if column_dataset >=0:
         if not (trigger in triggerDataset):
             tmp_list = []
             tmp_list.append(current_dataset)
@@ -49,18 +73,33 @@ for Line in open(file_menu,'r'):
             if not (current_dataset in triggerDataset[trigger]):
                 triggerDataset[trigger].append(current_dataset)
 # make group map
+    if column_group >=0:
         tmp_group = line[column_group]
         tmp_group = tmp_group.replace('/',',')
         tmp_group = tmp_group.replace('(',',')
         tmp_group = tmp_group.replace(')',',')
-        tmp_group = tmp_group.replace(' ','')
+        tmp_group = tmp_group.replace('-',',')
+        tmp_group = tmp_group.replace('.',',')
         tmp_group = tmp_group.replace('SUSY','SUS')
+        tmp_group = tmp_group.replace('Higgs','HIG')
+        tmp_group = tmp_group.replace('Egamma','EGM')
+        tmp_group = tmp_group.replace('EXO PAG','EXO,PAG')
+        tmp_group = tmp_group.replace('B2G PAG','B2G,PAG')
         tmp_group = tmp_group.replace('Muon','MUO')
         tmp_group = tmp_group.replace('muon','MUO')
+        tmp_group = tmp_group.replace('tau pog','tau-pog')
         tmp_group_list = tmp_group.split(',')
+        tmp_group_list2 = []
         if not (trigger in triggerGroup):
-            triggerGroup[trigger] = tmp_group_list 
+            for group in tmp_group_list:
+                group=group.strip(' ')
+                if check_group(group):
+                    tmp_group_list2.append(group)
+            if tmp_group_list2 == []:
+                tmp_group_list2 = [' ']
+            triggerGroup[trigger] = tmp_group_list2 
 # make PS map
+    if column_ps >=0:
         if not (trigger in prescaleMap):
             tmp_list = []
             prescale = line[column_ps]
@@ -69,10 +108,14 @@ for Line in open(file_menu,'r'):
             prescale = prescale.replace('\d','')
             prescale = prescale.replace(' ','')
             prescale = prescale.replace(',','.')
-            tmp_list.append(str(int(float(prescale))))
+            tmp_ps = float(prescale)
+            if tmp_ps !=0 and tmp_ps <1:
+                tmp_ps = 1
+            tmp_list.append(str(int(tmp_ps)))
             prescaleMap[trigger] = tmp_list
 
 # make type map
+    if column_type >=0:
         if not (trigger in triggerType):
             tmp_list = []
             tmp_list.append(line[column_type])
